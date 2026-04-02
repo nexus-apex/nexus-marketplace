@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{% if editing %}Edit{% else %}New{% endif %} MarketStore | NexusMarketplace{% endblock %}
+{% block page_title %}{% if editing %}Edit MarketStore{% else %}New MarketStore{% endif %}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:750px">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ record.name|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label>Owner Name</label>
+        <input type="text" name="owner_name" value="{{ record.owner_name|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ record.email|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" name="category" value="{{ record.category|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Products Count</label>
+        <input type="number" name="products_count" value="{{ record.products_count|default:'0' }}">
+      </div>
+      <div class="form-group">
+        <label>Rating</label>
+        <input type="number" step="0.01" name="rating" value="{{ record.rating|default:'0' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Commission Rate</label>
+        <input type="number" step="0.01" name="commission_rate" value="{{ record.commission_rate|default:'0' }}">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status">
+          <option value="active" {% if record.status == 'active' %}selected{% endif %}>Active</option>
+          <option value="pending" {% if record.status == 'pending' %}selected{% endif %}>Pending</option>
+          <option value="suspended" {% if record.status == 'suspended' %}selected{% endif %}>Suspended</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Joined Date</label>
+        <input type="date" name="joined_date" value="{{ record.joined_date|date:'Y-m-d'|default:'' }}">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-top:1rem">
+      <button type="submit" class="btn btn-primary">{% if editing %}Update{% else %}Create{% endif %} MarketStore</button>
+      <a href="/marketstores/" class="btn" style="background:var(--border);color:var(--text)">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

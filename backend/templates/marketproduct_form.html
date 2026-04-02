@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{% if editing %}Edit{% else %}New{% endif %} MarketProduct | NexusMarketplace{% endblock %}
+{% block page_title %}{% if editing %}Edit MarketProduct{% else %}New MarketProduct{% endif %}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:750px">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ record.name|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label>Store Name</label>
+        <input type="text" name="store_name" value="{{ record.store_name|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" step="0.01" name="price" value="{{ record.price|default:'0' }}">
+      </div>
+      <div class="form-group">
+        <label>Compare Price</label>
+        <input type="number" step="0.01" name="compare_price" value="{{ record.compare_price|default:'0' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Stock</label>
+        <input type="number" name="stock" value="{{ record.stock|default:'0' }}">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" name="category" value="{{ record.category|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status">
+          <option value="active" {% if record.status == 'active' %}selected{% endif %}>Active</option>
+          <option value="out_of_stock" {% if record.status == 'out_of_stock' %}selected{% endif %}>Out of Stock</option>
+          <option value="pending_review" {% if record.status == 'pending_review' %}selected{% endif %}>Pending Review</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Rating</label>
+        <input type="number" step="0.01" name="rating" value="{{ record.rating|default:'0' }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="description">{{ record.description|default:'' }}</textarea>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-top:1rem">
+      <button type="submit" class="btn btn-primary">{% if editing %}Update{% else %}Create{% endif %} MarketProduct</button>
+      <a href="/marketproducts/" class="btn" style="background:var(--border);color:var(--text)">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
